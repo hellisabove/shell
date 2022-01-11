@@ -1,7 +1,7 @@
 OBJS	= shell.o
 SOURCE	= shell.c
 HEADER	= 
-OUT	= sh
+OUT	= sash
 CC	 = gcc
 FLAGS	 = -g -c
 LFLAGS	 = -lreadline
@@ -13,7 +13,13 @@ shell.o: shell.c
 	$(CC) $(FLAGS) shell.c 
 
 install: all
-	cp ss /usr/local/bin
+	@echo installing executable file to ${DESTDIR}${PREFIX}/bin
+	@mkdir -p ${DESTDIR}${PREFIX}/bin
+	@cp -f sash ${DESTDIR}${PREFIX}/bin
+	@chmod 755 ${DESTDIR}${PREFIX}/bin/sash
+	@chmod u+s ${DESTDIR}${PREFIX}/bin/sash
+	@echo "/usr/local/bin/sash" >> /etc/shells
 
 clean:
-	rm -f $(OBJS) $(OUT)
+	@echo cleaning
+	@rm -f sh $(OBJS)
