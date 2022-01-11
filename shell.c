@@ -40,7 +40,7 @@ void execArgs(char** parsed)
 		return;
 	} else if (pid == 0) {
 		if (execvp(parsed[0], parsed) < 0) {
-			printf("\nCould not execute command..");
+			printf("\nsh: command not found: \%s", parsed[0]);
 		}
 		exit(0);
 	} else {
@@ -75,7 +75,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
 		close(pipefd[1]);
 
 		if (execvp(parsed[0], parsed) < 0) {
-			printf("\nCould not execute command 1..");
+			printf("\nsh: command not found: \%s", parsed[0], parsedpipe[0]);
 			exit(0);
 		}
 	} else {
@@ -94,7 +94,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
 			dup2(pipefd[0], STDIN_FILENO);
 			close(pipefd[0]);
 			if (execvp(parsedpipe[0], parsedpipe) < 0) {
-				printf("\nCould not execute command 2..");
+				printf("\nsh: command not found: \%s", parsedpipe[0]);
 				exit(0);
 			}
 		} else {
@@ -105,30 +105,15 @@ void execArgsPiped(char** parsed, char** parsedpipe)
 	}
 }
 
-// Help command builtin
-void openHelp()
-{
-	puts("\nList of Commands supported:"
-		"\n>cd"
-		"\n>ls"
-		"\n>exit"
-		"\n>all other general commands available in UNIX shell"
-		"\n>pipe handling"
-		"\n>improper space handling");
-
-	return;
-}
-
 // Function to execute builtin commands
 int ownCmdHandler(char** parsed)
 {
-	int NoOfOwnCmds = 4, i, switchOwnArg = 0;
+	int NoOfOwnCmds = 2, i, switchOwnArg = 0;
 	char* ListOfOwnCmds[NoOfOwnCmds];
 	char* username;
 
 	ListOfOwnCmds[0] = "exit";
 	ListOfOwnCmds[1] = "cd";
-	ListOfOwnCmds[2] = "help";
 
 	for (i = 0; i < NoOfOwnCmds; i++) {
 		if (strcmp(parsed[0], ListOfOwnCmds[i]) == 0) {
@@ -142,9 +127,6 @@ int ownCmdHandler(char** parsed)
 		exit(0);
 	case 2:
 		chdir(parsed[1]);
-		return 1;
-	case 3:
-		openHelp();
 		return 1;
 	default:
 		break;

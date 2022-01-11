@@ -1,7 +1,7 @@
 OBJS	= shell.o
 SOURCE	= shell.c
 HEADER	= 
-OUT	= ss
+OUT	= sh
 CC	 = gcc
 FLAGS	 = -g -c
 LFLAGS	 = -lreadline
