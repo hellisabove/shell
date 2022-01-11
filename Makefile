@@ -1,11 +1,11 @@
 OBJS	= shell.o
 SOURCE	= shell.c
-HEADER	= 
 OUT	= sash
-CC	 = gcc
+CC	 = cc
 FLAGS	 = -g -c
 LFLAGS	 = -lreadline
-
+PREFIX  = local
+DESTDIR = /usr/
 all: $(OBJS)
 	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
 
@@ -22,4 +22,4 @@ install: all
 
 clean:
 	@echo cleaning
-	@rm -f sh $(OBJS)
+	@rm -f sash $(OBJS)
