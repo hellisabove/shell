@@ -1,12 +1,13 @@
 // C Program to design a shell in Linux
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<sys/types.h>
-#include<sys/wait.h>
-#include<readline/readline.h>
-#include<readline/history.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <pwd.h>
 
 #define MAXCOM 1000 // max number of letters to be supported
 #define MAXLIST 100 // max number of commands to be supported
@@ -126,8 +127,14 @@ int ownCmdHandler(char** parsed)
 	case 1:
 		exit(0);
 	case 2:
-		chdir(parsed[1]);
-		return 1;
+		if(parsed[1]){
+			chdir(parsed[1]);
+			return 1;
+		} else {
+			char *home = getenv("HOME");
+			chdir(home);
+			return 1;
+		}	
 	default:
 		break;
 	}
